@@ -1,15 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { deleteContact } from '../../redux/userSlice';
 
-const ContactList = ({ contact, onDeleteContact }) => {
+const ContactList = ({ contact }) => {
+  const dispatch = useDispatch();
   return (
     <ListContacts>
       {contact.map(({ name, number, id }) => (
         <ItemContact key={id}>
           <NameUser>{name}:</NameUser>
           <span>{number}</span>
-          <ButtonDel type="button" onClick={() => onDeleteContact(id)}>
+          <ButtonDel type="button" onClick={() => dispatch(deleteContact(id))}>
             Delete
           </ButtonDel>
         </ItemContact>
@@ -55,5 +58,4 @@ ContactList.propTypes = {
       number: PropTypes.string.isRequired,
     })
   ),
-  onDeleteContact: PropTypes.func.isRequired,
 };

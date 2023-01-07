@@ -1,37 +1,25 @@
-import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../redux/userSlice';
 import { nanoid } from 'nanoid';
 import { FormUser, LabelUser, InputUser, ButtonAdd } from './Form.styled';
 
 const loginInputIdName = nanoid();
 const loginInputIdNumber = nanoid();
-const ContactForm = ({ onSubmit }) => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+
+const ContactForm = () => {
+  const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
-    onSubmit({ name, number });
-    reset();
-  };
-  const reset = () => {
-    setName('');
-    setNumber('');
-  };
-  const handleChange = e => {
-    const { name, value } = e.currentTarget;
+    const form = e.currentTarget;
+    const name = form.elements.name.value;
+    const number = form.elements.number.value;
+    const data = { name, number };
 
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
+    dispatch(addContact({ ...data, id: nanoid() }));
 
-      case 'number':
-        setNumber(value);
-        break;
-
-      default:
-        return;
-    }
+    form.elements.number.value = '';
+    form.elements.name.value = '';
   };
 
   return (
@@ -40,8 +28,6 @@ const ContactForm = ({ onSubmit }) => {
         <LabelUser htmlFor={loginInputIdName}>Name</LabelUser>
         <InputUser
           id={loginInputIdName}
-          value={name}
-          onChange={handleChange}
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -52,8 +38,6 @@ const ContactForm = ({ onSubmit }) => {
         <LabelUser htmlFor={loginInputIdNumber}>Number</LabelUser>
         <InputUser
           id={loginInputIdNumber}
-          value={number}
-          onChange={handleChange}
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"

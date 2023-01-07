@@ -1,16 +1,26 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { filterContact } from '../../redux/userSlice';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 
 const idUser = nanoid();
 
-const Filter = ({ value, onChange }) => (
-  <FieldInput>
-    <label htmlFor={idUser}>Find contacts by name</label>
-    <InputFind id={idUser} type="text" value={value} onChange={onChange} />
-  </FieldInput>
-);
+const Filter = ({ value }) => {
+  const dispatch = useDispatch();
+  return (
+    <FieldInput>
+      <label htmlFor={idUser}>Find contacts by name</label>
+      <InputFind
+        id={idUser}
+        type="text"
+        value={value}
+        onChange={e => dispatch(filterContact(e.currentTarget.value))}
+      />
+    </FieldInput>
+  );
+};
 
 const FieldInput = styled.div`
   margin-left: 10px;
@@ -30,5 +40,5 @@ const InputFind = styled.input`
 export default Filter;
 Filter.propTypes = {
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  // onChange: PropTypes.func.isRequired,
 };
