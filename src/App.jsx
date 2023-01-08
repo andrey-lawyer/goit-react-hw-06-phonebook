@@ -6,7 +6,9 @@ import { PhoneBook, TitleH1, TitleH2, Message } from 'App.styled';
 
 const App = () => {
   const user = useSelector(state => state.contact.contacts);
-  const filterUser = useSelector(state => state.contact.filter);
+  // const filterUser = useSelector(state => state.contact.filter);
+  const filterUser = useSelector(state => state.filter.filter);
+
   const getVisibleContacts = () => {
     const normalizedFilter = filterUser.toLowerCase();
     return user.filter(contact =>

@@ -1,12 +1,14 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { filterContact } from '../../redux/userSlice';
+// import { filterContact } from '../../redux/userSlice';
+import { filterContact } from '../../redux/filterSlice';
+
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 
 const idUser = nanoid();
-
+console.log(filterContact);
 const Filter = ({ value }) => {
   const dispatch = useDispatch();
   return (
