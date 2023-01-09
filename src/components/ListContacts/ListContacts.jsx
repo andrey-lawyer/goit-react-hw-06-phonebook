@@ -1,14 +1,21 @@
 import React from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/userSlice';
 
-const ContactList = ({ contact }) => {
+import PropTypes from 'prop-types';
+
+import { deleteContact } from '../../redux/contacts/contactSlice';
+import {
+  ButtonDel,
+  ItemContact,
+  NameUser,
+  ListContacts,
+} from './ListContacts.styled';
+
+const ContactList = ({ contacts }) => {
   const dispatch = useDispatch();
   return (
     <ListContacts>
-      {contact.map(({ name, number, id }) => (
+      {contacts.map(({ name, number, id }) => (
         <ItemContact key={id}>
           <NameUser>{name}:</NameUser>
           <span>{number}</span>
@@ -20,38 +27,11 @@ const ContactList = ({ contact }) => {
     </ListContacts>
   );
 };
-const ListContacts = styled.ul`
-  margin: 0;
-  margin-left: 10px;
-  padding: 0;
-`;
-const ItemContact = styled.li`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 5px;
-`;
-const NameUser = styled.p`
-  margin: 0;
-`;
-const ButtonDel = styled.button`
-  margin-right: 20px;
-  width: 80px;
-  padding: 3px;
-  background-color: #e0ffff;
-  border: solid 1px;
-  border-radius: 2px;
-  cursor: pointer;
 
-  :hover,
-  focus {
-    transform: scale(1.05);
-    background-color: rgb(135, 206, 250);
-  }
-`;
 export default ContactList;
 
 ContactList.propTypes = {
-  contact: PropTypes.arrayOf(
+  contacts: PropTypes.arrayOf(
     PropTypes.exact({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,

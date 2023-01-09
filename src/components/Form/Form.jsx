@@ -1,6 +1,11 @@
 import { useDispatch } from 'react-redux';
-import { addContact } from '../../redux/userSlice';
+import { useSelector } from 'react-redux';
+
 import { nanoid } from 'nanoid';
+
+import { addContact } from '../../redux/contacts/contactSlice';
+import { selectContacts } from '../../redux/contacts/selectContacts';
+
 import { FormUser, LabelUser, InputUser, ButtonAdd } from './Form.styled';
 
 const loginInputIdName = nanoid();
@@ -8,16 +13,20 @@ const loginInputIdNumber = nanoid();
 
 const ContactForm = () => {
   const dispatch = useDispatch();
-
+  const contacts = useSelector(selectContacts);
   const handleSubmit = e => {
     e.preventDefault();
     const form = e.currentTarget;
     const name = form.elements.name.value;
     const number = form.elements.number.value;
-    const data = { name, number };
+    const isInConacts = contacts.some(
+      item => item.name.toLowerCase() === name.toLowerCase()
+    );
+    if (isInConacts) {
+      return alert(`${name} is already in contacts`);
+    }
 
-    dispatch(addContact({ ...data, id: nanoid() }));
-
+    dispatch(addContact({ name, number }));
     form.elements.number.value = '';
     form.elements.name.value = '';
   };

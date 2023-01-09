@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 export const FormUser = styled.form`
   display: flex;
   flex-direction: column;
